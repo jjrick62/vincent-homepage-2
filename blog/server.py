@@ -1,21 +1,54 @@
 """
 博客编辑器后端 — FastAPI + SQLite
-启动: python server.py
-端口: 8080
+启动: python server.py 或 BLOG_TOKEN=xxx python server.py
+端口: 8066
+鉴权: 环境变量 BLOG_TOKEN，默认 vincent2026
 """
 
 import sqlite3
 import os
 from datetime import datetime
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 
 app = FastAPI(title="Blog Editor API")
 
+BLOG_TOKEN = os.getenv("BLOG_TOKEN", "vincent2026")
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "blog.db")
+
+LOGIN_HTML = """<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>博客管理 | 登录</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#f7f7f3;font-family:"Noto Sans SC","PingFang SC",sans-serif;
+  display:flex;align-items:center;justify-content:center;min-height:100vh}
+  form{width:min(360px,90vw);padding:40px;border:1px solid rgba(0,0,0,0.12);background:rgba(255,255,255,0.5);
+  backdrop-filter:blur(12px)}
+  h1{font-size:21px;margin:0 0 8px} p{color:rgba(0,0,0,0.52);font-size:14px;margin:0 0 24px}
+  input{width:100%;padding:12px;border:1px solid rgba(0,0,0,0.86);background:#fff;font:inherit;font-size:16px;margin-bottom:16px}
+  input:focus{outline:none;border-color:#050505}
+  button{width:100%;padding:12px;border:1px solid rgba(0,0,0,0.86);background:#050505;color:#f7f7f3;
+  font:inherit;font-size:15px;cursor:pointer}
+  .error{color:#c00;font-size:13px;margin-bottom:12px}
+</style></head>
+<body>
+<form method="post">
+  <h1>博客管理</h1><p>输入访问密钥</p>
+  {error}
+  <input type="password" name="token" placeholder="密钥..." autofocus>
+  <button type="submit">进入编辑器</button>
+</form>
+</body></html>"""
+
+
+def check_token(request: Request):
+    """从 cookie 或 query 参数中验证 token"""
+    token = request.cookies.get("blog_token") or request.query_params.get("token")
+    return token == BLOG_TOKEN
 
 
 def get_db():
@@ -55,17 +88,48 @@ class PostUpdate(BaseModel):
     status: Optional[str] = None
 
 
+@app.middleware("http")
+async def auth_middleware(request: Request, call_next):
+    path = request.url.path
+
+    # 静态资源放行
+    if path.startswith("/static") or path.startswith("/src"):
+        return await call_next(request)
+
+    # GET / → 登录页
+    if path == "/" and request.method == "GET":
+        return HTMLResponse(LOGIN_HTML.replace("{error}", ""))
+
+    # POST / → 验证密码
+    if path == "/" and request.method == "POST":
+        form = await request.form()
+        if form.get("token", "") == BLOG_TOKEN:
+            resp = HTMLResponse('<meta http-equiv="refresh" content="0;url=/editor">')
+            resp.set_cookie("blog_token", BLOG_TOKEN, httponly=True, max_age=86400 * 30)
+            return resp
+        return HTMLResponse(LOGIN_HTML.replace("{error}", '<p class="error">密钥错误</p>'))
+
+    # 其余路由验证 token
+    token = request.cookies.get("blog_token") or request.query_params.get("token")
+    if token != BLOG_TOKEN:
+        if path.startswith("/api"):
+            return JSONResponse({"detail": "未授权"}, status_code=401)
+        return HTMLResponse(LOGIN_HTML.replace("{error}", ""))
+
+    return await call_next(request)
+
+
 @app.get("/api/posts")
-def list_posts(tag: Optional[str] = None, status: Optional[str] = None):
+def list_posts(tag: Optional[str] = None, filter_status: Optional[str] = None):
     with get_db() as conn:
         query = "SELECT id, title, tags, status, created_at, updated_at FROM posts WHERE 1=1"
         params = []
         if tag:
             query += " AND tags LIKE ?"
             params.append(f"%{tag}%")
-        if status:
+        if filter_status:
             query += " AND status = ?"
-            params.append(status)
+            params.append(filter_status)
         query += " ORDER BY updated_at DESC"
         rows = conn.execute(query, params).fetchall()
         return [dict(r) for r in rows]
@@ -153,7 +217,13 @@ app.mount("/static", StaticFiles(directory=blog_dir), name="static")
 
 
 @app.get("/")
+def serve_login():
+    """未登录 → 登录页；已登录 → 编辑器（中间件处理）"""
+    return HTMLResponse(LOGIN_HTML.replace("{error}", ""))
+
+@app.get("/editor")
 def serve_editor():
+    """编辑器页面（需鉴权，中间件拦截）"""
     return FileResponse(os.path.join(blog_dir, "editor.html"))
 
 
