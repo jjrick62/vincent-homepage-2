@@ -186,9 +186,6 @@ function renderPreview() {
     return;
   }
   previewContent.innerHTML = marked.parse(raw);
-  previewContent.querySelectorAll('pre code').forEach((block) => {
-    hljs.highlightElement(block);
-  });
 }
 
 editorTextarea.addEventListener('input', renderPreview);
