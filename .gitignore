@@ -6,3 +6,4 @@ vite-dev.pid
 blog.db
 blog.db-shm
 blog.db-wal
+.env

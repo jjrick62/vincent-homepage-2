@@ -16,7 +16,17 @@ from typing import Optional
 
 app = FastAPI(title="Blog Editor API")
 
-BLOG_TOKEN = os.getenv("BLOG_TOKEN", "vincent2026")
+# 加载 .env
+env_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(env_path):
+    with open(env_path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+
+BLOG_TOKEN = os.getenv("BLOG_TOKEN", "555432")
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "blog.db")
 
 LOGIN_HTML = """<!doctype html>
