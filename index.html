@@ -148,21 +148,11 @@
             <p>首页只放精选文章，完整博客页会按 AI 前端、Agent、可视化和工程笔记分类。</p>
           </div>
 
-          <div class="note-grid">
+          <div class="note-grid" id="blog-grid">
             <article class="note-card">
-              <span>2026.06 / AI FRONTEND</span>
-              <h3>如何让 AI 生成的前端不显得廉价</h3>
-              <p>从审美约束、动效节奏和结构稳定性谈起。</p>
-            </article>
-            <article class="note-card">
-              <span>2026.05 / INTERFACE</span>
-              <h3>Agent 工具调用的页面表达</h3>
-              <p>把不可见的推理过程变成可读界面。</p>
-            </article>
-            <article class="note-card">
-              <span>2026.04 / VISUALIZATION</span>
-              <h3>Three.js 可视化中的克制设计</h3>
-              <p>少一点炫技，多一点信息层级。</p>
+              <span>加载中...</span>
+              <h3>技术博客</h3>
+              <p>正在从服务器拉取文章...</p>
             </article>
           </div>
         </section>
@@ -242,5 +232,33 @@
     </div>
 
     <script type="module" src="/src/main.js"></script>
+    <script>
+      // 博客板块：从 API 拉取已发布文章
+      (async () => {
+        const grid = document.getElementById('blog-grid');
+        if (!grid) return;
+        try {
+          const res = await fetch('/api/published');
+          if (!res.ok) throw new Error('API fail');
+          const posts = await res.json();
+          if (!posts.length) {
+            grid.innerHTML = '<article class="note-card"><span>暂无文章</span><h3>技术博客</h3><p>文章发布后会出现在这里。</p></article>';
+            return;
+          }
+          grid.innerHTML = posts.map(p => {
+            const date = (p.created_at || '').slice(0, 10);
+            const tags = (p.tags || '未分类').split(',')[0].trim() || '未分类';
+            return `<article class="note-card">
+              <span>${date} / ${esc(tags)}</span>
+              <h3>${esc(p.title || '无标题')}</h3>
+              <p>点击查看文章详情。</p>
+            </article>`;
+          }).join('');
+        } catch (e) {
+          grid.innerHTML = '<article class="note-card"><span>离线模式</span><h3>技术博客</h3><p>无法连接服务器，文章列表暂不可用。</p></article>';
+        }
+      })();
+      function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    </script>
   </body>
 </html>

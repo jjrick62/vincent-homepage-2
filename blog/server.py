@@ -102,16 +102,23 @@ class PostUpdate(BaseModel):
 async def auth_middleware(request: Request, call_next):
     path = request.url.path
 
-    # 静态资源放行
+    # 公开：静态资源、主页、已发布文章 API
     if path.startswith("/static") or path.startswith("/src"):
         return await call_next(request)
+    if path == "/" or path == "/index.html":
+        return await call_next(request)
+    if path == "/api/published":
+        return await call_next(request)
 
-    # GET / → 登录页
-    if path == "/" and request.method == "GET":
-        return HTMLResponse(LOGIN_HTML.replace("{error}", ""))
+    # /editor 未登录 → 登录页
+    if path == "/editor" and request.method == "GET":
+        token = request.cookies.get("blog_token") or request.query_params.get("token")
+        if token != BLOG_TOKEN:
+            return HTMLResponse(LOGIN_HTML.replace("{error}", ""))
+        return await call_next(request)
 
-    # POST / → 验证密码
-    if path == "/" and request.method == "POST":
+    # POST /editor → 验证密码
+    if path == "/editor" and request.method == "POST":
         form = await request.form()
         if form.get("token", "") == BLOG_TOKEN:
             resp = HTMLResponse('<meta http-equiv="refresh" content="0;url=/editor">')
@@ -119,7 +126,7 @@ async def auth_middleware(request: Request, call_next):
             return resp
         return HTMLResponse(LOGIN_HTML.replace("{error}", '<p class="error">密钥错误</p>'))
 
-    # 其余路由验证 token
+    # API 和其他路由验证 token
     token = request.cookies.get("blog_token") or request.query_params.get("token")
     if token != BLOG_TOKEN:
         if path.startswith("/api"):
@@ -226,14 +233,25 @@ app.mount("/src", StaticFiles(directory=os.path.join(project_dir, "src")), name=
 app.mount("/static", StaticFiles(directory=blog_dir), name="static")
 
 
+@app.get("/api/published")
+def list_published():
+    """公开：已发布文章列表（主页博客板块调用）"""
+    with get_db() as conn:
+        rows = conn.execute(
+            "SELECT id, title, tags, created_at, updated_at FROM posts WHERE status='published' ORDER BY updated_at DESC"
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+
 @app.get("/")
-def serve_login():
-    """未登录 → 登录页；已登录 → 编辑器（中间件处理）"""
-    return HTMLResponse(LOGIN_HTML.replace("{error}", ""))
+def serve_homepage():
+    """主页（公开）"""
+    return FileResponse(os.path.join(project_dir, "index.html"))
+
 
 @app.get("/editor")
 def serve_editor():
-    """编辑器页面（需鉴权，中间件拦截）"""
+    """编辑器（需鉴权）"""
     return FileResponse(os.path.join(blog_dir, "editor.html"))
 
 
