@@ -147,6 +147,8 @@ def list_tags():
 
 
 blog_dir = os.path.dirname(__file__)
+project_dir = os.path.join(blog_dir, "..")
+app.mount("/src", StaticFiles(directory=os.path.join(project_dir, "src")), name="src")
 app.mount("/static", StaticFiles(directory=blog_dir), name="static")
 
 
