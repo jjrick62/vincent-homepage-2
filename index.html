@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Vincent 的个人主页，展示 AI 前端构造、个人项目和技术博客。"
+    />
+    <title>Vincent | AI Frontend Builder</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <div class="grid-field" aria-hidden="true">
+        <div class="grid-ray"></div>
+      </div>
+
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="回到首页">
+          <span class="brand-mark">V</span>
+          <span>
+            <strong>Vincent</strong>
+            <small>AI Frontend Builder</small>
+          </span>
+        </a>
+
+        <button class="command-toggle" type="button" aria-expanded="false">
+          <span>Index</span>
+          <span class="toggle-line"></span>
+        </button>
+
+        <nav class="command-panel" data-open="false" aria-label="主导航">
+          <a class="command-link" href="#featured" data-section="featured">
+            <span>01</span><strong>Featured</strong><small>精选项目</small>
+          </a>
+          <a class="command-link" href="#projects" data-section="projects">
+            <span>02</span><strong>Projects</strong><small>项目索引</small>
+          </a>
+          <a class="command-link" href="#notes" data-section="notes">
+            <span>03</span><strong>Notes</strong><small>技术博客</small>
+          </a>
+          <a class="command-link" href="#method" data-section="method">
+            <span>04</span><strong>Method</strong><small>构造方法</small>
+          </a>
+          <a class="command-link" href="#contact" data-section="contact">
+            <span>05</span><strong>Contact</strong><small>联系我</small>
+          </a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero section-block" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow">PERSONAL HOMEPAGE 2.0</p>
+            <h1 id="hero-title">AI Frontend<br />Builder</h1>
+            <p class="hero-text">
+              我把个人项目、技术博客和 AI 构造前端的过程放进同一个黑白网格场域里。
+              页面本身也是作品：克制、可读、带一点被生成出来的流动感。
+            </p>
+          </div>
+          <aside class="hero-command" aria-label="构造状态">
+            <div class="terminal-line"></div>
+            <div class="terminal-line"></div>
+            <div class="terminal-line"></div>
+            <p>Prompt → Component → Motion → Ship</p>
+          </aside>
+        </section>
+
+        <section id="featured" class="section-block featured-section" aria-labelledby="featured-title">
+          <div class="section-heading">
+            <p class="eyebrow">FEATURED</p>
+            <h2 id="featured-title">精选项目</h2>
+            <p>黑色重点卡只承载最强项目，让整页有明确视觉锚点。</p>
+          </div>
+
+          <div class="featured-grid">
+            <article class="black-feature-card">
+              <div class="card-kicker">FEATURED PROJECT</div>
+              <div>
+                <h3>AI Agent 控制台</h3>
+                <p>任务拆解、工具调用、状态可视化，用一个可操作界面展示 AI 工作流。</p>
+              </div>
+              <div class="tag-row">
+                <span>React</span><span>Agent</span><span>Motion</span><span>UI</span>
+              </div>
+            </article>
+
+            <article class="black-feature-card secondary">
+              <div class="card-kicker">VISUAL SYSTEM</div>
+              <div>
+                <h3>3D 数据地图</h3>
+                <p>把抽象数据关系放进可旋转、可浏览的空间场景，让数据结构变得可感知。</p>
+              </div>
+              <div class="tag-row">
+                <span>Three.js</span><span>WebGL</span><span>Data</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="projects" class="section-block index-section" aria-labelledby="projects-title">
+          <div class="section-heading side-heading">
+            <p class="eyebrow">PROJECTS & NOTES</p>
+            <h2 id="projects-title">项目与文章索引</h2>
+            <p>用 CD-1 阅读型装配索引混排项目和文章，保持内容秩序，也保留 AI 构造感。</p>
+          </div>
+
+          <div class="index-list">
+            <a class="index-row" href="#featured">
+              <span class="row-kind">PROJECT</span>
+              <span class="row-main">
+                <strong>Motion Portfolio 实验</strong>
+                <small>黑白网格、流光显影与滚动触发动画。</small>
+              </span>
+              <span class="row-arrow">→</span>
+            </a>
+            <a class="index-row" href="#article">
+              <span class="row-kind">BLOG</span>
+              <span class="row-main">
+                <strong>如何让 AI 前端不显廉价</strong>
+                <small>审美约束、动效节奏和结构稳定性。</small>
+              </span>
+              <span class="row-arrow">→</span>
+            </a>
+            <a class="index-row" href="#featured">
+              <span class="row-kind">PROJECT</span>
+              <span class="row-main">
+                <strong>个人博客生成器</strong>
+                <small>从笔记到可发布文章的自动整理流程。</small>
+              </span>
+              <span class="row-arrow">→</span>
+            </a>
+            <a class="index-row" href="#article">
+              <span class="row-kind">BLOG</span>
+              <span class="row-main">
+                <strong>Agent 页面表达笔记</strong>
+                <small>把不可见的推理过程变成可读界面。</small>
+              </span>
+              <span class="row-arrow">→</span>
+            </a>
+          </div>
+        </section>
+
+        <section id="notes" class="section-block notes-section" aria-labelledby="notes-title">
+          <div class="section-heading">
+            <p class="eyebrow">TECH BLOG</p>
+            <h2 id="notes-title">技术博客</h2>
+            <p>首页只放精选文章，完整博客页会按 AI 前端、Agent、可视化和工程笔记分类。</p>
+          </div>
+
+          <div class="note-grid">
+            <article class="note-card">
+              <span>2026.06 / AI FRONTEND</span>
+              <h3>如何让 AI 生成的前端不显得廉价</h3>
+              <p>从审美约束、动效节奏和结构稳定性谈起。</p>
+            </article>
+            <article class="note-card">
+              <span>2026.05 / INTERFACE</span>
+              <h3>Agent 工具调用的页面表达</h3>
+              <p>把不可见的推理过程变成可读界面。</p>
+            </article>
+            <article class="note-card">
+              <span>2026.04 / VISUALIZATION</span>
+              <h3>Three.js 可视化中的克制设计</h3>
+              <p>少一点炫技，多一点信息层级。</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="method" class="section-block method-section" aria-labelledby="method-title">
+          <div class="section-heading side-heading">
+            <p class="eyebrow">BUILD METHOD</p>
+            <h2 id="method-title">我的构造方法</h2>
+            <p>这个板块展示主页背后的方法论：不是套模板，而是有意识地构造界面。</p>
+          </div>
+
+          <div class="method-track" aria-label="构造流程">
+            <article><span>01</span><strong>Prompt</strong><p>先定义审美、结构和交互边界。</p></article>
+            <article><span>02</span><strong>Component</strong><p>把意图拆成可复用的界面组件。</p></article>
+            <article><span>03</span><strong>Motion</strong><p>用少量动效表达状态与构造过程。</p></article>
+            <article><span>04</span><strong>Review</strong><p>检查文本、布局、响应式和可读性。</p></article>
+            <article><span>05</span><strong>Ship</strong><p>沉淀为项目案例和技术复盘。</p></article>
+          </div>
+        </section>
+
+        <section class="section-block stack-section" aria-labelledby="stack-title">
+          <div class="section-heading">
+            <p class="eyebrow">TECH STACK</p>
+            <h2 id="stack-title">技术栈</h2>
+            <p>不用彩色 logo，保持黑白索引感。</p>
+          </div>
+
+          <div class="stack-grid">
+            <article><h3>Frontend</h3><p>JavaScript / React / Vite / CSS Motion</p></article>
+            <article><h3>AI</h3><p>Prompt Design / Agent Workflow / Tool Use</p></article>
+            <article><h3>Visualization</h3><p>Three.js / WebGL / Charts</p></article>
+            <article><h3>Data</h3><p>Python / SQL / Analysis</p></article>
+          </div>
+        </section>
+
+        <section id="article" class="section-block article-section" aria-labelledby="article-title">
+          <article class="article-glass">
+            <p class="eyebrow">ARTICLE PREVIEW / GLASS READING</p>
+            <h2 id="article-title">如何让 AI 生成的前端不显得廉价</h2>
+            <p>
+              文章阅读页仍然保留网格流光背景，但正文不直接压在背景上，而是进入更透明的磨砂玻璃层。
+              背景提供品牌记忆，玻璃层提供稳定阅读。
+            </p>
+            <p>
+              正文宽度控制在舒适范围内，行高放松，段落之间留足呼吸感。滚动时网格流光速度降低，
+              避免干扰长时间阅读。
+            </p>
+            <div class="article-toc">
+              <span>ON THIS PAGE</span>
+              <a href="#notes">审美约束</a>
+              <a href="#method">动效节奏</a>
+              <a href="#projects">结构稳定性</a>
+            </div>
+          </article>
+        </section>
+
+        <section class="section-block about-section" aria-labelledby="about-title">
+          <div class="section-heading side-heading">
+            <p class="eyebrow">ABOUT</p>
+            <h2 id="about-title">关于我</h2>
+            <p>
+              我关注大数据管理与应用、AI Agent、3D 可视化和前端体验设计。
+              这个主页既是作品集，也是我用 AI 构造前端能力的一次公开展示。
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer id="contact" class="site-footer section-block">
+        <p class="eyebrow">CONTACT</p>
+        <h2>让想法变成界面。</h2>
+        <div class="footer-links">
+          <a href="mailto:vincent@example.com">Email</a>
+          <a href="https://github.com/">GitHub</a>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
