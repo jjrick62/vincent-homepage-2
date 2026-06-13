@@ -30,7 +30,7 @@ if os.path.exists(env_path):
 BLOG_TOKEN = os.getenv("BLOG_TOKEN")
 if not BLOG_TOKEN:
     raise RuntimeError("BLOG_TOKEN environment variable is required")
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "blog.db")
+DB_PATH = os.getenv("BLOG_DB_PATH", "/data/blog.db")
 
 LOGIN_HTML = """<!doctype html>
 <html lang="zh-CN">
@@ -374,4 +374,4 @@ def startup():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8066)
+    uvicorn.run(app, host="0.0.0.0", port=8066)

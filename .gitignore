@@ -1,9 +1,14 @@
 node_modules/
 dist/
 .superpowers/
+.claude/
 vite-dev*.log
 vite-dev.pid
 blog.db
 blog.db-shm
 blog.db-wal
 .env
+部署信息*
+__pycache__/
+*.pyc
+tmp/

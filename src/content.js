@@ -42,6 +42,56 @@ export const projectIndex = [
   },
 ];
 
+export const primaryProjects = [
+  {
+    title: "个人主页 2.0",
+    summary: "简约黑白 + 磨砂玻璃。Hero、项目展示、技术博客和密钥鉴权在线编辑器。",
+    stack: "FastAPI · SQLite · 原生 JS · 黑白网格动效",
+    github: "https://github.com/jjrick62/vincent-homepage-2",
+  },
+  {
+    title: "RAG 企业级问答系统",
+    summary: "多文档检索增强生成，PDF、网页、数据库三源索引，支持 Hybrid Search。",
+    stack: "Python · FastAPI · LangChain · ChromaDB",
+    github: "https://github.com/jjrick62/rag-enterprise-qa",
+  },
+  {
+    title: "手势地球",
+    summary: "摄像头 21 点手部关键点识别，通过手势控制 3D 地球旋转和缩放。",
+    stack: "Three.js · MediaPipe Hands",
+    github: "https://github.com/jjrick62/gesture-earth-demo",
+    live: "https://jjrick62.github.io/gesture-earth-demo",
+  },
+  {
+    title: "旅行相册 Web",
+    summary: "30 万+ 粒子渲染全球海岸线与行政区划，支持离线 PWA 与 3D 投影卡片。",
+    stack: "Three.js · PWA · IndexedDB · GeoJSON",
+    github: "https://github.com/jjrick62/travel-album-3d",
+    live: "https://jjrick62.github.io/travel-album-3d",
+  },
+  {
+    title: "旅行相册 Android",
+    summary: "旅行相册 Web 版的 Capacitor 封装，打包为 Android APK。",
+    stack: "Capacitor · Three.js · PWA",
+    github: "https://github.com/jjrick62/colorful-meridian-android",
+  },
+];
+
+export const secondaryProjects = [
+  {
+    title: "算术闹钟",
+    summary: "答对 5 道随机加减法题关闭闹钟，悬浮窗与通知栏常驻。",
+    stack: "Flutter · Dart · Android",
+    github: "https://github.com/jjrick62/alarm_math_app",
+  },
+  {
+    title: "Claude 移动桥",
+    summary: "把桌面 Claude Code CLI 包装成手机浏览器可远程操控的 AI Agent 服务。",
+    stack: "Python Flask · WebSocket",
+    github: "https://github.com/jjrick62/claude-mobile-chat",
+  },
+];
+
 export const notes = [
   {
     title: "如何让 AI 前端不显廉价",

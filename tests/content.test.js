@@ -5,7 +5,9 @@ import {
   featuredProjects,
   navItems,
   notes,
+  primaryProjects,
   projectIndex,
+  secondaryProjects,
   techGroups,
 } from "../src/content.js";
 
@@ -39,5 +41,20 @@ describe("homepage content model", () => {
     expect(techGroups.length).toBeGreaterThanOrEqual(4);
     expect(notes.length).toBeGreaterThanOrEqual(3);
     expect(contactLinks.map((link) => link.label)).toEqual(["Email", "GitHub"]);
+  });
+
+  it("models the README primary and secondary projects for homepage display", () => {
+    expect(primaryProjects.map((project) => project.title)).toEqual([
+      "个人主页 2.0",
+      "RAG 企业级问答系统",
+      "手势地球",
+      "旅行相册 Web",
+      "旅行相册 Android",
+    ]);
+    expect(secondaryProjects.map((project) => project.title)).toEqual([
+      "算术闹钟",
+      "Claude 移动桥",
+    ]);
+    expect(primaryProjects.every((project) => project.github && project.stack)).toBe(true);
   });
 });
